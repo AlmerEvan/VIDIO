@@ -1,0 +1,16 @@
+div{
+  margin: auto;
+  width: 70%;
+}
+
+h1 {
+    color: lightskyblue;
+}
+
+h2 {
+    color: pink;
+}
+
+p {
+    border: 1px solid black;
+}

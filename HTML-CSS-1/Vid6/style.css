@@ -1,0 +1,25 @@
+div{
+  margin: auto;
+  width: 70%;
+}
+
+h1 {
+    color: lightskyblue;
+    border: 2px solid black;
+    top: 30px;
+    position: sticky;
+}
+
+h2 {
+    color: pink;
+    border: 1px dashed grey;
+}
+
+p {
+    border: 1px solid black;
+    padding: 20px;
+}
+img{
+  border: 5px solid azure;
+  margin: 15px;
+}
