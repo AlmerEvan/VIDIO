@@ -1,0 +1,26 @@
+.carousel-item img{
+    height: 180px;
+    margin: auto;
+}
+
+@media(min-width:560px) {
+    .carousel-item img{
+        height: 400px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+.jumbotron{
+  padding: 0,5rem;
+}
+.container h1{
+  font-size: 3em;
+ font-weight: bold;
+}
+.card img{
+  height: 180px;
+  margin-top: 50px;
+}
+.container1{
+  margin-top: 50px;
+}
