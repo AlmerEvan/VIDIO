@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Belajar Axios (Project Restoran)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <div class="container mt-4">
+    <h1 class="display-4">Belajar Axios Project Restoran</h1>
+    
+    <!-- Tombol Aksi -->
+    <div class="my-3">
+      <button id="get" class="btn btn-primary me-2">Get All Data</button>
+      <button id="delete" class="btn btn-danger me-2">Delete Data</button>
+    </div>
+    <hr/>
+
+    <!-- Output Data -->
+    <div id="out" class="mt-3"></div>
+    <hr/>
+
+    <!-- Form Tambah Data -->
+    <div class="p-3 border rounded shadow-sm">
+      <h3>Tambah Data Pelanggan Baru</h3>
+      <input type="text" id="pelanggan" class="form-control mb-2" placeholder="Nama Pelanggan"/>
+      <input type="text" id="alamat" class="form-control mb-2" placeholder="Alamat"/>
+      <input type="text" id="telepon" class="form-control mb-2" placeholder="Telepon"/>
+      <button id="simpan" class="btn btn-success">Simpan Data Baru</button>
+    </div>
+
+    <!-- Form Update Data -->
+    <div class="p-3 mt-4 border rounded shadow-sm">
+      <h3>Perbarui Data Pelanggan</h3>
+      <input type="text" id="idUpdate" class="form-control mb-2" placeholder="ID Pelanggan"/>
+      <input type="text" id="pelangganUpdate" class="form-control mb-2" placeholder="Nama Baru"/>
+      <input type="text" id="alamatUpdate" class="form-control mb-2" placeholder="Alamat Baru"/>
+      <input type="text" id="teleponUpdate" class="form-control mb-2" placeholder="Telepon Baru"/>
+      <button id="updateData" class="btn btn-warning">Perbarui Data</button>
+    </div>
+
+    <!-- Form Show Data by ID -->
+    <div class="p-3 mt-4 border rounded shadow-sm">
+      <h3>Show Detail Pelanggan</h3>
+      <input type="text" id="idShow" class="form-control mb-2" placeholder="ID Pelanggan"/>
+      <button id="showById" class="btn btn-info">Tampilkan Data</button>
+      <div id="single-data-out" class="mt-3"></div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const baseURL = "http://localhost:8000/api"; // Ganti sesuai base API kamu
+    const token = "66JEOajF2u80hxaAldNEx2QRiM4VDACvNIcgsFgY"; // Ganti dengan token asli
+
+    const link = axios.create({
+      baseURL: baseURL,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // GET All
+    function get() {
+      link.get('/pelanggan')
+        .then(res => {
+          let html = `<table class="table table-bordered"><thead><tr>
+            <th>ID</th><th>Pelanggan</th><th>Alamat</th><th>Telepon</th></tr></thead><tbody>`;
+          res.data.forEach(p => {
+            html += `<tr>
+              <td>${p.id_pelanggan}</td>
+              <td>${p.pelanggan}</td>
+              <td>${p.alamat}</td>
+              <td>${p.telepon}</td>
+            </tr>`;
+          });
+          html += `</tbody></table>`;
+          document.querySelector('#out').innerHTML = html;
+        })
+        .catch(err => {
+          document.querySelector('#out').innerHTML = `<p class="text-danger">Gagal mengambil data: ${err.message}</p>`;
+        });
+    }
+
+    // POST
+    function post() {
+      const pelanggan = document.querySelector("#pelanggan").value;
+      const alamat = document.querySelector("#alamat").value;
+      const telepon = document.querySelector("#telepon").value;
+
+      if (!pelanggan || !alamat || !telepon) {
+        alert("Semua kolom wajib diisi!");
+        return;
+      }
+
+      link.post('/pelanggan', { pelanggan, alamat, telepon })
+        .then(res => {
+          alert(res.data.pesan || "Data berhasil ditambahkan!");
+          get();
+          document.querySelector("#pelanggan").value = "";
+          document.querySelector("#alamat").value = "";
+          document.querySelector("#telepon").value = "";
+        })
+        .catch(err => alert("Gagal menambah data: " + err.message));
+    }
+
+    // SHOW
+    function show() {
+      const id = document.querySelector("#idShow").value;
+      if (!id) return alert("Masukkan ID!");
+
+      link.get(`/pelanggan/${id}`)
+        .then(res => {
+          const p = res.data;
+          document.querySelector("#single-data-out").innerHTML = `
+            <p><strong>ID:</strong> ${p.id_pelanggan}</p>
+            <p><strong>Nama:</strong> ${p.pelanggan}</p>
+            <p><strong>Alamat:</strong> ${p.alamat}</p>
+            <p><strong>Telepon:</strong> ${p.telepon}</p>`;
+        })
+        .catch(err => {
+          document.querySelector("#single-data-out").innerHTML = `<p class="text-danger">Gagal: ${err.message}</p>`;
+        });
+    }
+
+    // DELETE
+    function del() {
+      const id = prompt("Masukkan ID pelanggan yang ingin dihapus:");
+      if (!id) return;
+
+      if (!confirm("Yakin ingin menghapus data ini?")) return;
+
+      link.delete(`/pelanggan/${id}`)
+        .then(res => {
+          alert(res.data.pesan || "Data berhasil dihapus");
+          get();
+        })
+        .catch(err => alert("Gagal menghapus data: " + err.message));
+    }
+
+    // UPDATE
+    function updateData() {
+      const id = document.querySelector("#idUpdate").value;
+      const pelanggan = document.querySelector("#pelangganUpdate").value;
+      const alamat = document.querySelector("#alamatUpdate").value;
+      const telepon = document.querySelector("#teleponUpdate").value;
+
+      if (!id) return alert("ID harus diisi!");
+
+      const data = {};
+      if (pelanggan) data.pelanggan = pelanggan;
+      if (alamat) data.alamat = alamat;
+      if (telepon) data.telepon = telepon;
+
+      if (Object.keys(data).length === 0) return alert("Isi minimal satu field untuk update!");
+
+      link.put(`/pelanggan/${id}`, data)
+        .then(res => {
+          alert(res.data.pesan || "Data berhasil diperbarui!");
+          get();
+          document.querySelector("#idUpdate").value = "";
+          document.querySelector("#pelangganUpdate").value = "";
+          document.querySelector("#alamatUpdate").value = "";
+          document.querySelector("#teleponUpdate").value = "";
+        })
+        .catch(err => alert("Gagal update: " + err.message));
+    }
+
+    // Event Listener
+    document.querySelector("#get").onclick = get;
+    document.querySelector("#simpan").onclick = post;
+    document.querySelector("#showById").onclick = show;
+    document.querySelector("#delete").onclick = del;
+    document.querySelector("#updateData").onclick = updateData;
+  </script>
+</body>
+</html>
