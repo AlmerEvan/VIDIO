@@ -1,0 +1,38 @@
+.Tentang {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f8f9fa;
+  min-height: 80vh;
+}
+
+.Tentang h1 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.Tentang p {
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.counter-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.counter-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  min-width: 50px;
+}

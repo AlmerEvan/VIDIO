@@ -2,9 +2,40 @@
   text-align: center;
 }
 
+.App-nav {
+  background-color: #282c34;
+  padding: 1rem;
+}
+
+.App-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.App-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.App-nav a:hover {
+  color: #61dafb;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  filter: drop-shadow(0 0 15px rgba(97, 218, 251, 0.5));
+  transition: all 0.3s ease;
+}
+
+.App-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 20px rgba(97, 218, 251, 0.8));
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -14,7 +45,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background: linear-gradient(135deg, #282c34 0%, #1a1e24 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,10 +53,39 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 2rem;
+  transition: background 0.3s ease;
 }
 
 .App-link {
   color: #61dafb;
+  text-decoration: none;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #61dafb;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+}
+
+.App-link:hover {
+  background: #61dafb;
+  color: #282c34;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.4);
+}
+
+.App-header h1 {
+  margin: 2rem 0;
+  font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.App-header p {
+  max-width: 600px;
+  line-height: 1.6;
+  margin: 1rem 0;
+  opacity: 0.9;
 }
 
 @keyframes App-logo-spin {
